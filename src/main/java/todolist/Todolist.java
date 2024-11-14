@@ -12,8 +12,11 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 /**
- *
- * @author Aristo Baadi
+ * A simple To-Do List application with GUI.
+ * Allows users to add, check/uncheck, delete, and clear to-do items and groups.
+ * Maintains a history of the last 5 actions performed.
+ * 
+ * @version 1.0
  */
 public class Todolist {
     private static JFrame frame;
@@ -23,6 +26,11 @@ public class Todolist {
     private static JComboBox<String> groupComboBox;
     private static DefaultComboBoxModel<String> groupModel;
 
+    /**
+     * The main method to initialize and display the To-Do List application.
+     * 
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
         frame = new JFrame("To-Do List App");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,8 +45,10 @@ public class Todolist {
 
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
+        panel.setBackground(Color.LIGHT_GRAY); // Set background color
 
         JButton addButton = new JButton("Add To-Do List");
+        addButton.setToolTipText("Click to add a new to-do list item"); // Add tooltip
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -52,6 +62,7 @@ public class Todolist {
         });
 
         JButton checkButton = new JButton("Check/Uncheck");
+        checkButton.setToolTipText("Click to check/uncheck the selected item"); // Add tooltip
         checkButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -72,10 +83,12 @@ public class Todolist {
 
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
+        topPanel.setBackground(Color.DARK_GRAY); // Set background color
         topPanel.add(addButton, BorderLayout.WEST);
         topPanel.add(groupComboBox, BorderLayout.EAST);
 
         JButton addGroupButton = new JButton("Add Group");
+        addGroupButton.setToolTipText("Click to add a new group"); // Add tooltip
         addGroupButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -88,9 +101,11 @@ public class Todolist {
         topPanel.add(addGroupButton, BorderLayout.CENTER);
 
         panel.add(topPanel, BorderLayout.NORTH);
+        todoList.setFont(new Font("Arial", Font.PLAIN, 14)); // Set font for to-do list items
         panel.add(new JScrollPane(todoList), BorderLayout.CENTER);
 
         JButton deleteButton = new JButton("Delete Selected");
+        deleteButton.setToolTipText("Click to delete the selected item or group"); // Add tooltip
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -116,9 +131,23 @@ public class Todolist {
             }
         });
 
+        JButton clearButton = new JButton("Clear");
+        clearButton.setToolTipText("Click to clear all items and groups"); // Add tooltip
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                listModel.clear();
+                groupModel.removeAllElements();
+                groupModel.addElement("Default");
+                addToHistory("Cleared all items and groups");
+            }
+        });
+
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new BorderLayout());
+        bottomPanel.setBackground(Color.DARK_GRAY); // Set background color
         bottomPanel.add(checkButton, BorderLayout.WEST);
+        bottomPanel.add(clearButton, BorderLayout.CENTER); // Add clear button in the middle
         bottomPanel.add(deleteButton, BorderLayout.EAST);
 
         panel.add(bottomPanel, BorderLayout.SOUTH);
@@ -127,6 +156,12 @@ public class Todolist {
         frame.setVisible(true);
     }
 
+    /**
+     * Adds an action to the history stack.
+     * Maintains a maximum of 5 actions in the history.
+     * 
+     * @param action the action to be added to the history
+     */
     private static void addToHistory(String action) {
         if (history.size() == 5) {
             history.remove(0);
