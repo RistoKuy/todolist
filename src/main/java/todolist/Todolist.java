@@ -73,17 +73,19 @@ public class Todolist {
             JButton checkButton = new JButton("Check/Uncheck");
             checkButton.setToolTipText("Click to check/uncheck the selected item"); // Add tooltip
             checkButton.addActionListener(e -> {
-                int index = todoList.getSelectedIndex();
-                if (index != -1) {
-                    String item = listModel.getElementAt(index);
-                    if (item.startsWith("[Done] ")) {
-                        item = item.substring(7);
-                        addToHistory("Unchecked: " + item);
-                    } else {
-                        item = "[Done] " + item;
-                        addToHistory("Checked: " + item);
+                int[] selectedIndices = todoList.getSelectedIndices();
+                if (selectedIndices.length > 0) {
+                    for (int index : selectedIndices) {
+                        String item = listModel.getElementAt(index);
+                        if (item.startsWith("[Done] ")) {
+                            item = item.substring(7);
+                            addToHistory("Unchecked: " + item);
+                        } else {
+                            item = "[Done] " + item;
+                            addToHistory("Checked: " + item);
+                        }
+                        listModel.set(index, item);
                     }
-                    listModel.set(index, item);
                 }
             });
 
