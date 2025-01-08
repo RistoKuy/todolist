@@ -146,12 +146,23 @@ public class Todolist {
                 addToHistory("Cleared all items and groups");
             });
 
+            JButton historyButton = new JButton("View History");
+            historyButton.setToolTipText("Click to view the last 5 actions"); // Add tooltip
+            historyButton.addActionListener(e -> {
+                StringBuilder historyText = new StringBuilder("Last 5 Actions:\n");
+                for (String action : history) {
+                    historyText.append(action).append("\n");
+                }
+                JOptionPane.showMessageDialog(frame, historyText.toString(), "History", JOptionPane.INFORMATION_MESSAGE);
+            });
+
             JPanel bottomPanel = new JPanel();
             bottomPanel.setLayout(new BorderLayout());
             bottomPanel.setBackground(Color.DARK_GRAY); // Set background color
             bottomPanel.add(checkButton, BorderLayout.WEST);
             bottomPanel.add(clearButton, BorderLayout.CENTER); // Add clear button in the middle
             bottomPanel.add(deleteButton, BorderLayout.EAST);
+            bottomPanel.add(historyButton, BorderLayout.NORTH); // Add history button at the top of the bottom panel
 
             panel.add(bottomPanel, BorderLayout.SOUTH);
 
