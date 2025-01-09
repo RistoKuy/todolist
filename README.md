@@ -39,6 +39,10 @@ A simple To-Do List application with GUI. Allows users to add, check/uncheck, de
     java -cp src/main/java todolist.Todolist
     ```
 
+## Demo
+
+[![Demo Video](https://img.youtube.com/vi/0GnYxf0nKD4/0.jpg)](https://youtu.be/0GnYxf0nKD4)
+
 ## Usage
 
 - **Add To-Do List**: Click the "Add To-Do List" button to add a new to-do item.
